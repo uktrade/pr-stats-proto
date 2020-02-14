@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mcbhenwood/pr-stats-promo/issues"
   },
-  "homepage": "https://github.com/mcbhenwood/pr-stats-promo#readme"
+  "homepage": "https://github.com/mcbhenwood/pr-stats-promo#readme",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
 }
