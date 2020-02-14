@@ -1,0 +1,19 @@
+{
+  "name": "pr-stats-proto",
+  "version": "0.0.1",
+  "description": "Prototype for automated analysis of GitHub pull request stats.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcbhenwood/pr-stats-promo.git"
+  },
+  "author": "mcbhenwood@icloud.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcbhenwood/pr-stats-promo/issues"
+  },
+  "homepage": "https://github.com/mcbhenwood/pr-stats-promo#readme"
+}
