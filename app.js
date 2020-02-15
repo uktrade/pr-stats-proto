@@ -6,9 +6,9 @@ const getPRData = async () => {
 }
 
 const extractPrData = prData => prData.items.map(
-    ({number, html_url, created_at, closed_at}) => {
+    ({number, html_url, created_at, closed_at, user}) => {
         const lifetimeInHours = Math.round((new Date(closed_at) - new Date(created_at)) / 3600000)
-        const summary = `lifetime ${lifetimeInHours}, number ${number}, html_url, ${html_url}`
+        const summary = `lifetime ${lifetimeInHours}, number ${number}, author @${user.login}, html_url, ${html_url}`
         return {
             lifetimeInHours,
             summary
