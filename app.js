@@ -5,15 +5,24 @@ const getPRData = async () => {
     return resp.data
 }
 
-const lifetimeInHours = (createdDateTimeString, closedDateTimeString) =>
-    Math.round((new Date(closedDateTimeString) - new Date(createdDateTimeString)) / 3600000)
+const extractPrData = prData => prData.items.map(
+    ({number, html_url, created_at, closed_at}) => {
+        const lifetimeInHours = Math.round((new Date(closed_at) - new Date(created_at)) / 3600000)
+        const summary = `lifetime ${lifetimeInHours}, number ${number}, html_url, ${html_url}`
+        return {
+            lifetimeInHours,
+            summary
+        }
+    }
+)
 
-const formatPrLine = ({number, html_url, created_at, closed_at}) =>
-    `lifetime ${lifetimeInHours(created_at, closed_at)}, number ${number}, html_url, ${html_url}`
+const orderPrListForDisplay = prList => [...prList].sort(
+    (a, b) => b.lifetimeInHours - a.lifetimeInHours
+)
 
 const main = async () => {
-    const data = await getPRData()
-    data.items.map(pr => console.log(formatPrLine(pr)))
+    const prList = extractPrData(await getPRData())
+    orderPrListForDisplay(prList).map(pr => console.log(pr.summary))
 }
 
 main()
