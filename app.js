@@ -5,8 +5,11 @@ const getPRData = async () => {
     return resp.data
 }
 
+const lifetimeInHours = (createdDateTimeString, closedDateTimeString) =>
+    Math.round((new Date(closedDateTimeString) - new Date(createdDateTimeString)) / 3600000)
+
 const formatPrLine = ({number, html_url, created_at, closed_at}) =>
-    `number ${number}, html_url, ${html_url}`
+    `lifetime ${lifetimeInHours(created_at, closed_at)}, number ${number}, html_url, ${html_url}`
 
 const main = async () => {
     const data = await getPRData()
