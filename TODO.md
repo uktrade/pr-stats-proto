@@ -1,6 +1,5 @@
 # pr-stats-proto TODO list
 
-* Add 'summary' section with count of PRs and average lifetime
 * Remove constraint of "@mcbhenwood"
 * Make period previous 2 weeks fixed, show in summary section
 * Verify that there is no pagination in the results - or handle it if there is
