@@ -6,19 +6,18 @@ const getPRData = async () => {
 }
 
 
-const prListReducer = ({totalLifetimeInHours, prCount, summariseSummary}, {lifetimeInHours}) => ({
+const prListReducer = ({totalLifetimeInHours, prCount}, {lifetimeInHours}) => ({
     totalLifetimeInHours: totalLifetimeInHours + lifetimeInHours,
-    prCount: prCount + 1,
-    summariseSummary
+    prCount: prCount + 1
 })
 
 // TODO rethink the 'summary' variable and method names
-const summariseSummary = ({prCount, totalLifetimeInHours}) =>
+const formatSummary = ({prCount, totalLifetimeInHours}) =>
     `total PRs ${prCount}, total lifetime ${totalLifetimeInHours}, mean ${Math.round(totalLifetimeInHours / prCount)}`
 
 const summarisePrList = prList => prList.reduce(
     prListReducer,
-    {totalLifetimeInHours: 0, prCount: 0, summariseSummary})
+    {totalLifetimeInHours: 0, prCount: 0})
 
 const extractPrData = prData => prData.items.map(
     ({number, html_url, created_at, closed_at, user}) => {
@@ -37,7 +36,8 @@ const orderPrListForDisplay = prList => [...prList].sort(
 
 const main = async () => {
     const prList = extractPrData(await getPRData())
-    console.log(summariseSummary(summarisePrList(prList)))
+    const prSummary = summarisePrList(prList)
+    console.log(formatSummary(prSummary))
     orderPrListForDisplay(prList).map(pr => console.log(pr.summary))
 }
 
