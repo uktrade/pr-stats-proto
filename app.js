@@ -1,8 +1,7 @@
 const axios = require('axios')
 
-const getPRData = async (ownerRepo, fromDateTime) => {
-    const fromDate = fromDateTime.toISOString().substring(0, 10)
-    const query = `is:pr+repo:${ownerRepo}+is:merged+created:\>\=${fromDate}&per_page=100`
+const getPRData = async (ownerRepo, fromDate, toDate) => {
+    const query = `is:pr+repo:${ownerRepo}+is:merged+created:${fromDate}..${toDate}&per_page=100`
     const resp = await axios.get(`https://api.github.com/search/issues\?q\=${query}`)
     return resp.data
 }
@@ -13,8 +12,8 @@ const prListReducer = ({totalLifetimeInDays, prCount}, {lifetimeInDays}) => ({
     prCount: prCount + 1
 })
 
-const formatSummary = (repoName, {prCount, totalLifetimeInDays}, fromDateTime, teamName='ALL PRs') =>
-    `${repoName} - ${teamName} - Since ${fromDateTime.toDateString()}: total PRs ${prCount}, total lifetime ${totalLifetimeInDays}h, mean ${Math.round(10 * (totalLifetimeInDays / prCount)) / 10}d`
+const formatSummary = (repoName, {prCount, totalLifetimeInDays}, fromDate, toDate, teamName='ALL PRs') =>
+    `${repoName} - ${teamName} - ${fromDate} to ${toDate}: total PRs ${prCount}, total lifetime ${totalLifetimeInDays}d, mean ${Math.round(10 * (totalLifetimeInDays / prCount)) / 10}d`
 
 const summarisePrList = prList => prList.reduce(
     prListReducer,
@@ -48,22 +47,24 @@ const componentRepo = 'uktrade/data-hub-components'
 const frontendRepo = 'uktrade/data-hub-frontend'
 const repos = {apiRepo, componentRepo, frontendRepo}
 
-const reportForRepo = async (repoName, ownerRepo) => {
-    const fromDateTime = new Date(new Date() - 1209600000)
-    const prList = extractPrData(await getPRData(ownerRepo, fromDateTime))
+const reportForRepo = async (repoName, ownerRepo, fromDate, toDate) => {
+    const prList = extractPrData(await getPRData(ownerRepo, fromDate, toDate))
     const allPrSummary = summarisePrList(prList)
-    console.log(formatSummary(repoName, allPrSummary, fromDateTime))
+    console.log(formatSummary(repoName, allPrSummary, fromDate, toDate))
     for (let [teamName, teamFilter] of Object.entries(teamFilters)) {
         let teamPrSummary = summarisePrList(prList.filter(teamFilter))
-        console.log(formatSummary(repoName, teamPrSummary, fromDateTime, teamName))
+        console.log(formatSummary(repoName, teamPrSummary, fromDate, toDate, teamName))
     }
     orderPrListForDisplay(prList).map(pr => console.log(pr.text))
 }
 
-const main = () => {
+const main = (fromDate, toDate) => {
     for (let [repoName, ownerRepo] of Object.entries(repos)) {
-        reportForRepo(repoName, ownerRepo)
+        reportForRepo(repoName, ownerRepo, fromDate, toDate)
     }
 }
 
-main()
+const fromDate = process.argv[2]
+const toDate = process.argv[3]
+
+main(fromDate, toDate)
