@@ -8,3 +8,7 @@ Currently run at CL only, thus:
 ```
 $ node app.js
 ```
+
+## Features
+
+The prototype is currently being built to [this TODO list](TODO.md).
