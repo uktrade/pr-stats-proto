@@ -13,7 +13,7 @@ const prListReducer = ({totalLifetimeInDays, prCount}, {lifetimeInDays}) => ({
 })
 
 const formatSummary = (repoName, {prCount, totalLifetimeInDays}, fromDate, toDate, teamName='ALL PRs') =>
-    `${repoName} - ${teamName} - ${fromDate} to ${toDate}: total PRs ${prCount}, total lifetime ${totalLifetimeInDays}d, mean ${Math.round(10 * (totalLifetimeInDays / prCount)) / 10}d`
+    `${fromDate} to ${toDate}: ${repoName} - ${teamName} - total PRs ${prCount}, total lifetime ${totalLifetimeInDays}d, mean ${Math.round(10 * (totalLifetimeInDays / prCount)) / 10}d`
 
 const summarisePrList = prList => prList.reduce(
     prListReducer,
