@@ -21,9 +21,9 @@ const summarisePrList = prList => prList.reduce(
     {totalLifetimeInHours: 0, prCount: 0})
 
 const extractPrData = (prData, fromDateTime) => prData.items.map(
-    ({html_url, created_at, closed_at, user}) => {
+    ({html_url, created_at, closed_at, user, comments}) => {
         const lifetimeInHours = Math.round((new Date(closed_at) - new Date(created_at)) / 3600000)
-        const text = `lifetime ${lifetimeInHours}h, ${html_url} author @${user.login}`
+        const text = `lifetime ${lifetimeInHours}h, ${html_url} author @${user.login}, comments: ${comments}`
         return {
             author: user.login,
             lifetimeInHours,
