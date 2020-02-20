@@ -8,32 +8,32 @@ const getPRData = async (ownerRepo, fromDateTime) => {
 }
 
 
-const prListReducer = ({totalLifetimeInHours, prCount}, {lifetimeInHours}) => ({
-    totalLifetimeInHours: totalLifetimeInHours + lifetimeInHours,
+const prListReducer = ({totalLifetimeInDays, prCount}, {lifetimeInDays}) => ({
+    totalLifetimeInDays: totalLifetimeInDays + lifetimeInDays,
     prCount: prCount + 1
 })
 
-const formatSummary = (repoName, {prCount, totalLifetimeInHours}, fromDateTime, teamName='ALL PRs') =>
-    `${repoName} - ${teamName} - Since ${fromDateTime.toDateString()}: total PRs ${prCount}, total lifetime ${totalLifetimeInHours}h, mean ${Math.round(totalLifetimeInHours / prCount)}h`
+const formatSummary = (repoName, {prCount, totalLifetimeInDays}, fromDateTime, teamName='ALL PRs') =>
+    `${repoName} - ${teamName} - Since ${fromDateTime.toDateString()}: total PRs ${prCount}, total lifetime ${totalLifetimeInDays}h, mean ${Math.round(10 * (totalLifetimeInDays / prCount)) / 10}d`
 
 const summarisePrList = prList => prList.reduce(
     prListReducer,
-    {totalLifetimeInHours: 0, prCount: 0})
+    {totalLifetimeInDays: 0, prCount: 0})
 
 const extractPrData = (prData, fromDateTime) => prData.items.map(
     ({html_url, created_at, closed_at, user, comments}) => {
-        const lifetimeInHours = Math.round((new Date(closed_at) - new Date(created_at)) / 3600000)
-        const text = `lifetime ${lifetimeInHours}h, ${html_url} author @${user.login}, comments: ${comments}`
+        const lifetimeInDays = Math.round(10*((new Date(closed_at) - new Date(created_at)) / 86400000)) / 10
+        const text = `lifetime ${lifetimeInDays}d, ${html_url} author @${user.login}, comments: ${comments}`
         return {
             author: user.login,
-            lifetimeInHours,
+            lifetimeInDays,
             text
         }
     }
 )
 
 const orderPrListForDisplay = prList => [...prList].sort(
-    (a, b) => b.lifetimeInHours - a.lifetimeInHours
+    (a, b) => b.lifetimeInDays - a.lifetimeInDays
 )
 
 const makeFilter = teamAuthorList => ({author}) => teamAuthorList.includes(author)
