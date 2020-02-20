@@ -35,19 +35,7 @@ const orderPrListForDisplay = prList => [...prList].sort(
     (a, b) => b.lifetimeInDays - a.lifetimeInDays
 )
 
-const makeFilter = teamAuthorList => ({author}) => teamAuthorList.includes(author)
-
-const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'paulgain', 'rafenden'])
-const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'reupen'])
-const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'sekharpanja', 'web-bert'])
-const teamFilters = {blueTeamFilter, purpleTeamFilter, yellowTeamFilter}
-
-const apiRepo = 'uktrade/data-hub-api'
-const componentRepo = 'uktrade/data-hub-components'
-const frontendRepo = 'uktrade/data-hub-frontend'
-const repos = {apiRepo, componentRepo, frontendRepo}
-
-const reportForRepo = async (repoName, ownerRepo, fromDate, toDate) => {
+const reportForRepo = async (repoName, ownerRepo, fromDate, toDate, teamFilters) => {
     const prList = extractPrData(await getPRData(ownerRepo, fromDate, toDate))
     const allPrSummary = summarisePrList(prList)
     console.log(formatSummary(repoName, allPrSummary, fromDate, toDate))
@@ -58,13 +46,24 @@ const reportForRepo = async (repoName, ownerRepo, fromDate, toDate) => {
     orderPrListForDisplay(prList).map(pr => console.log(pr.text))
 }
 
-const main = async (fromDate, toDate) => {
+const main = async (repos, fromDate, toDate, teamFilters) => {
     for (let [repoName, ownerRepo] of Object.entries(repos)) {
-        await reportForRepo(repoName, ownerRepo, fromDate, toDate)
+        await reportForRepo(repoName, ownerRepo, fromDate, toDate, teamFilters)
     }
 }
 
 const fromDate = process.argv[2]
 const toDate = process.argv[3]
 
-main(fromDate, toDate)
+const makeFilter = teamAuthorList => ({author}) => teamAuthorList.includes(author)
+const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'paulgain', 'rafenden'])
+const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'reupen'])
+const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'sekharpanja', 'web-bert'])
+const teamFilters = {blueTeamFilter, purpleTeamFilter, yellowTeamFilter}
+
+const apiRepo = 'uktrade/data-hub-api'
+const componentRepo = 'uktrade/data-hub-components'
+const frontendRepo = 'uktrade/data-hub-frontend'
+const repos = {apiRepo, componentRepo, frontendRepo}
+
+main(repos, fromDate, toDate, teamFilters)
