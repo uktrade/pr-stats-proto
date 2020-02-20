@@ -14,7 +14,7 @@ const prListReducer = ({totalLifetimeInHours, prCount}, {lifetimeInHours}) => ({
 })
 
 const formatSummary = ({prCount, totalLifetimeInHours}, fromDateTime, teamName='ALL PRs') =>
-    `${teamName} - Since ${fromDateTime}: total PRs ${prCount}, total lifetime ${totalLifetimeInHours}h, mean ${Math.round(totalLifetimeInHours / prCount)}h`
+    `${teamName} - Since ${fromDateTime.toDateString()}: total PRs ${prCount}, total lifetime ${totalLifetimeInHours}h, mean ${Math.round(totalLifetimeInHours / prCount)}h`
 
 const summarisePrList = prList => prList.reduce(
     prListReducer,
