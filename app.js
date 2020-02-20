@@ -58,9 +58,9 @@ const reportForRepo = async (repoName, ownerRepo, fromDate, toDate) => {
     orderPrListForDisplay(prList).map(pr => console.log(pr.text))
 }
 
-const main = (fromDate, toDate) => {
+const main = async (fromDate, toDate) => {
     for (let [repoName, ownerRepo] of Object.entries(repos)) {
-        reportForRepo(repoName, ownerRepo, fromDate, toDate)
+        await reportForRepo(repoName, ownerRepo, fromDate, toDate)
     }
 }
 
