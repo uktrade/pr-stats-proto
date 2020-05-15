@@ -56,9 +56,9 @@ const fromDate = process.argv[2]
 const toDate = process.argv[3]
 
 const makeFilter = teamAuthorList => ({author}) => teamAuthorList.includes(author)
-const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'paulgain', 'rafenden'])
-const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'reupen'])
-const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'sekharpanja', 'web-bert'])
+const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'laurenqurashi', 'paulgain', 'rafenden'])
+const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'rachaelcodes', 'reupen'])
+const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'PippoRaimondi', 'sekharpanja', 'web-bert'])
 const teamFilters = {blueTeamFilter, purpleTeamFilter, yellowTeamFilter}
 
 const apiRepo = 'uktrade/data-hub-api'
