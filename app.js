@@ -55,7 +55,10 @@ const main = async (repos, fromDate, toDate, teamFilters) => {
 const fromDate = process.argv[2]
 const toDate = process.argv[3]
 
-const makeFilter = teamAuthorList => ({author}) => teamAuthorList.includes(author)
+const makeFilter = teamAuthorList => {
+    const lowerCaseTeamAuthorList = teamAuthorList.map(m => m.toLowerCase())
+    return ({author}) => lowerCaseTeamAuthorList.includes(author.toLowerCase())
+}
 const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'laurenqurashi', 'paulgain', 'rafenden'])
 const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'rachaelcodes', 'reupen'])
 const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'PippoRaimondi', 'sekharpanja', 'web-bert'])
