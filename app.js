@@ -67,6 +67,7 @@ const teamFilters = {blueTeamFilter, purpleTeamFilter, yellowTeamFilter}
 const apiRepo = 'uktrade/data-hub-api'
 const componentRepo = 'uktrade/data-hub-components'
 const frontendRepo = 'uktrade/data-hub-frontend'
-const repos = {apiRepo, componentRepo, frontendRepo}
+const dnbServiceRepo = 'uktrade/dnb-service'
+const repos = {apiRepo, componentRepo, frontendRepo, dnbServiceRepo}
 
 main(repos, fromDate, toDate, teamFilters)
