@@ -60,7 +60,7 @@ const makeFilter = teamAuthorList => {
     return ({author}) => lowerCaseTeamAuthorList.includes(author.toLowerCase())
 }
 const blueTeamFilter = makeFilter(['alixedi', 'cgsunkel', 'currycoder', 'laurenqurashi', 'paulgain', 'rafenden'])
-const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'rachaelcodes', 'reupen'])
+const purpleTeamFilter = makeFilter(['elcct', 'ian-leggett', 'mforner13', 'peterhudec', 'rachaelcodes'])
 const yellowTeamFilter = makeFilter(['adamledwards', 'debitan', 'PippoRaimondi', 'sekharpanja', 'web-bert'])
 const teamFilters = {blueTeamFilter, purpleTeamFilter, yellowTeamFilter}
 
